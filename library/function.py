@@ -32,3 +32,23 @@ def calculate_average(numbers):
 def sort_data(data, key_function, reverse=False):
     """Mengurutkan data dengan fungsi kunci yang diberikan sebagai argumen."""
     return sorted(data, key=key_function, reverse=reverse)
+
+
+def search_data(records, keyword, field):
+    """Mencari record yang mengandung keyword pada field tertentu."""
+    normalized_keyword = normalize_text(keyword)
+    return filter_data(
+        records,
+        lambda record: normalized_keyword in normalize_text(record.get(field, ""))
+    )
+
+
+def flatten_data(data):
+    """Meratakan nested list secara rekursif."""
+    if not isinstance(data, (list, tuple)):
+        return [data]
+    return aggregate_data(
+        data,
+        lambda result, item: result + flatten_data(item),
+        []
+    )
