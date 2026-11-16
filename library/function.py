@@ -1,4 +1,4 @@
-from functools import reduce
+from functools import reduce, wraps
 
 
 def normalize_text(text):
@@ -52,3 +52,23 @@ def flatten_data(data):
         lambda result, item: result + flatten_data(item),
         []
     )
+    
+def create_discount(discount_percent):
+    """Currying/closure: membuat fungsi diskon dengan persentase tetap."""
+    if not 0 <= discount_percent <= 100:
+        raise ValueError("Diskon harus berada di antara 0 dan 100 persen.")
+
+    def apply_discount(price):
+        return price * (1 - discount_percent / 100)
+
+    return apply_discount
+
+
+def validate_data(function):
+    """Decorator untuk menolak input data None atau koleksi kosong."""
+    @wraps(function)
+    def wrapper(data, *args, **kwargs):
+        if data is None or data == [] or data == ():
+            raise ValueError("Data tidak boleh kosong.")
+        return function(data, *args, **kwargs)
+    return wrapper    
