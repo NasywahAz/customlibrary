@@ -1,4 +1,4 @@
-from customlibrary.library.function import (
+from library.function import (
     normalize_text, transform_data, filter_data, aggregate_data,
     calculate_average, sort_data, search_data, flatten_data,
     create_discount, validate_data
